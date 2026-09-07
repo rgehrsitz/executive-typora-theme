@@ -10,9 +10,11 @@ stylesheet is lifted from the VS Code theme's JSON, and each variable in
 
 ## Install
 
-1. In Typora open **Preferences › Appearance › Open Theme Folder**.
-2. Copy `executive.css` **and** the `executive/` folder into that folder.
-3. Restart Typora and choose **Themes › Executive**.
+1. Grab the files: `git clone https://github.com/rgehrsitz/executive-typora-theme.git`,
+   or download the repository as a zip from GitHub.
+2. In Typora open **Preferences › Appearance › Open Theme Folder**.
+3. Copy `executive.css` **and** the `executive/` folder into that folder.
+4. Restart Typora and choose **Themes › Executive**.
 
 Nothing else to install. The five Monaspace variable fonts (about 2.8 MB of
 WOFF2) ship inside `executive/fonts/`, so the theme renders identically on
