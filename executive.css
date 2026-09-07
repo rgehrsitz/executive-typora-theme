@@ -1,0 +1,1769 @@
+/*
+ * Executive — a Typora theme
+ * --------------------------------------------------------------------------
+ * Port of the "Executive" VS Code color theme (deep jade greens, rich brown
+ * accents, warm parchment text) to Typora, set in GitHub's Monaspace type
+ * system.
+ *
+ *   VS Code theme : https://github.com/rgehrsitz/executive-theme
+ *   Fonts         : https://github.com/githubnext/monaspace  (SIL OFL 1.1)
+ *
+ * Install: copy executive.css and the executive/ folder into Typora's theme
+ * folder (Preferences > Appearance > Open Theme Folder), restart Typora, then
+ * pick "Executive" from the Themes menu.
+ *
+ * Every Monaspace family ships in executive/fonts/, so you can swap the
+ * prose, heading and code faces below without installing anything:
+ *   Xenon   — slab serif (default for prose and headings)
+ *   Neon    — neo-grotesque sans (default for code)
+ *   Argon   — humanist sans
+ *   Krypton — mechanical sans
+ *   Radon   — handwriting
+ */
+
+/* ========================================================================
+   1. Fonts — Monaspace variable web fonts
+   ------------------------------------------------------------------------
+   Axes (verified from the v1.400 files): wght 200–800, wdth 100–125,
+   slnt 0 to -11.  The default instance is ExtraLight, so every rule below
+   sets an explicit weight.  Italic is served by the slant axis: declaring
+   "oblique 0deg 11deg" lets font-style: italic resolve to the 11° slant.
+   ======================================================================== */
+
+@font-face {
+    font-family: "Monaspace Xenon";
+    src: url("./executive/fonts/MonaspaceXenonVar.woff2") format("woff2");
+    font-weight: 200 800;
+    font-stretch: 100% 125%;
+    font-style: oblique 0deg 11deg;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Monaspace Neon";
+    src: url("./executive/fonts/MonaspaceNeonVar.woff2") format("woff2");
+    font-weight: 200 800;
+    font-stretch: 100% 125%;
+    font-style: oblique 0deg 11deg;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Monaspace Argon";
+    src: url("./executive/fonts/MonaspaceArgonVar.woff2") format("woff2");
+    font-weight: 200 800;
+    font-stretch: 100% 125%;
+    font-style: oblique 0deg 11deg;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Monaspace Krypton";
+    src: url("./executive/fonts/MonaspaceKryptonVar.woff2") format("woff2");
+    font-weight: 200 800;
+    font-stretch: 100% 125%;
+    font-style: oblique 0deg 11deg;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Monaspace Radon";
+    src: url("./executive/fonts/MonaspaceRadonVar.woff2") format("woff2");
+    font-weight: 200 800;
+    font-stretch: 100% 125%;
+    font-style: oblique 0deg 11deg;
+    font-display: swap;
+}
+
+/* ========================================================================
+   2. Palette + Typora variables
+   ------------------------------------------------------------------------
+   Every hex value is lifted from "Executive Theme-color-theme.json"; the
+   VS Code key it came from is noted alongside.
+   ======================================================================== */
+
+:root {
+    /* ---- Executive palette --------------------------------------------- */
+    --exec-bg:               #181e21;   /* editor.background                 */
+    --exec-bg-raised:        #1c2424;   /* editorWidget.background            */
+    --exec-bg-panel:         #212828;   /* titleBar.activeBackground          */
+    --exec-bg-sidebar:       #242e2e;   /* sideBar.background                 */
+    --exec-bg-menu:          #273030;   /* menu.background                    */
+    --exec-bg-input:         #1c2728;   /* input.background                   */
+    --exec-bg-hover:         #2a3f3f;   /* menu.selectionBackground           */
+    --exec-bg-active:        #2f3f3f;   /* list.activeSelectionBackground     */
+    --exec-jade-deep:        #1b6164;   /* statusBar.background               */
+    --exec-jade:             #1c6f73;   /* badge.background                   */
+    --exec-jade-bright:      #109299;   /* editorSuggestWidget.highlightFg    */
+    --exec-jade-light:       #1e959d;   /* textLink.foreground                */
+    --exec-teal:             #02c4ba;   /* support.function                   */
+    --exec-teal-bright:      #32d4db;   /* editorLink.activeForeground        */
+    --exec-brown:            #5e3e1d;   /* input.border / indent guides       */
+    --exec-brown-mid:        #8c5d2c;   /* editorIndentGuide.activeBackground */
+    --exec-brown-line:       #543529;   /* panel.border                       */
+    --exec-brown-soft:       #452f18;   /* sideBar.border                     */
+    --exec-tan:              #a57746;   /* editorLineNumber.foreground        */
+    --exec-tan-light:        #c9a178;   /* breadcrumb.foreground              */
+    --exec-comment:          #996b3d;   /* comment                            */
+    --exec-muted:            #79726b;   /* activityBar.inactiveForeground     */
+    --exec-placeholder:      #8a7d70;   /* input.placeholderForeground        */
+    --exec-text:             #fdc78e;   /* editor.foreground                  */
+    --exec-text-strong:      #fde4bd;   /* tab.activeForeground               */
+    --exec-text-soft:        #dec1a3;   /* terminal.foreground                */
+    --exec-text-sidebar:     #ffcf9d;   /* sideBar.foreground                 */
+    --exec-text-title:       #ffdcb7;   /* titleBar.activeForeground          */
+    --exec-text-input:       #dec6ad;   /* input.foreground                   */
+    --exec-cream:            #ffe6cc;   /* button.foreground                  */
+    --exec-cursor:           #ffc281;   /* editorCursor.foreground            */
+    --exec-lineno-active:    #ffc587;   /* editorLineNumber.activeForeground  */
+    --exec-coral:            #ff7353;   /* markup.heading / variable          */
+    --exec-orange:           #dd8730;   /* markup.bold / constant.numeric     */
+    --exec-gold:             #ffc848;   /* entity.name.type                   */
+    --exec-sand:             #d9bd7d;   /* keyword.operator / punctuation     */
+    --exec-green:            #acdb47;   /* string / markup.inline.raw         */
+    --exec-purple:           #ab66c0;   /* keyword / markup.italic            */
+    --exec-blue:             #2b9ed1;   /* entity.name.function / link title  */
+    --exec-red:              #bc4024;   /* editorError.foreground             */
+    --exec-warning:          #d6ab47;   /* editorWarning.foreground           */
+    --exec-selection:        #1b676b;   /* selection.background               */
+    --exec-selection-code:   #1cb9c034; /* editor.selectionBackground         */
+    --exec-find:             #20556d;   /* editor.findMatchBackground         */
+    --exec-find-current:     #b28a2c;   /* progressBar.background             */
+    --exec-btn:              #16666b;   /* button.background                  */
+    --exec-btn-hover:        #208086;   /* button.hoverBackground             */
+
+    /* ---- Typography ---------------------------------------------------- */
+    --font-prose:   "Monaspace Xenon", "Segoe UI Emoji", "Apple Color Emoji", monospace;
+    --font-heading: "Monaspace Xenon", "Segoe UI Emoji", "Apple Color Emoji", monospace;
+    --font-code:    "Monaspace Neon",  "Segoe UI Emoji", "Apple Color Emoji", monospace;
+
+    /* calt = texture healing, liga = spacing of repeated glyphs,
+       ss01–ss09 = Monaspace's coding-ligature groups.  Both lists enable
+       everything; trim --features-prose to "calt" 1, "liga" 1 if you would
+       rather not have -> and => fuse into arrows in body text. */
+    --features-prose: "calt" 1, "liga" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1,
+                      "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1;
+    --features-code:  "calt" 1, "liga" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1,
+                      "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1;
+
+    --prose-weight:  400;
+    --strong-weight: 700;
+
+    /* ---- Typora's own variables --------------------------------------- */
+    --bg-color:                 var(--exec-bg);
+    --text-color:               var(--exec-text);
+    --side-bar-bg-color:        var(--exec-bg-sidebar);
+    --control-text-color:       var(--exec-tan-light);
+    --control-text-hover-color: var(--exec-text-strong);
+    --window-border:            1px solid var(--exec-brown-soft);
+    --border-color:             var(--exec-brown-line);
+    --panel-border-color:       var(--exec-brown-soft);
+    --table-border-color:       var(--exec-brown-line);
+
+    --select-text-bg-color:     var(--exec-selection);
+    --select-text-font-color:   var(--exec-cream);
+    --search-select-bg-color:   var(--exec-find-current);
+    --search-select-text-color: var(--exec-bg);
+
+    --active-file-bg-color:     var(--exec-bg-active);
+    --active-file-text-color:   var(--exec-text-strong);
+    --active-file-border-color: var(--exec-jade);
+    --item-hover-bg-color:      var(--exec-bg-hover);
+    --item-hover-text-color:    var(--exec-text-strong);
+    --side-bar-menu-active-tint: var(--exec-jade);
+
+    --primary-color:            var(--exec-jade-light);
+    --primary-btn-border-color: var(--exec-btn);
+    --primary-btn-text-color:   var(--exec-cream);
+    --focus-ring-color:         var(--exec-jade-bright);
+    --active-toggle-btn-color:  var(--exec-jade);
+
+    --md-char-color:            var(--exec-tan);
+    --heading-char-color:       var(--exec-blue);
+    --meta-content-color:       var(--exec-tan);
+    --blur-text-color:          var(--exec-muted);
+    --rawblock-edit-panel-bd:   var(--exec-bg-raised);
+    --color-popover-bg-color:   var(--exec-bg-menu);
+    --drag-placeholder-color:   var(--exec-jade);
+
+    --monospace: var(--font-code);
+    --node-fill: var(--exec-text);
+
+    --mermaid-theme: dark;
+    /* Typora passes this to mermaid; without it mermaid falls back to
+       Trebuchet MS, whose own ss03 stylistic set is small caps. */
+    --mermaid-font-family: "Monaspace Argon", "Monaspace Neon", sans-serif;
+}
+
+/* ========================================================================
+   3. Base
+   ======================================================================== */
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+    -webkit-text-size-adjust: 100%;
+    background: var(--bg-color);
+    fill: currentColor;
+}
+
+body {
+    font-family: var(--font-prose);
+    font-feature-settings: var(--features-prose);
+    font-weight: var(--prose-weight);
+    color: var(--text-color);
+    line-height: 1.75;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+div.code-tooltip-content {
+    color: var(--text-color);
+    border-color: transparent;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: var(--font-prose);
+}
+
+/* Monospaced prose runs wide; ~78 characters at 16px Xenon. */
+#write {
+    max-width: 880px;
+    padding-top: 40px;
+    padding-bottom: 120px;
+}
+
+@media only screen and (min-width: 1400px) {
+    #write { max-width: 960px; }
+}
+
+@media only screen and (min-width: 1800px) {
+    #write { max-width: 1080px; }
+}
+
+::selection,
+*.in-text-selection {
+    background: var(--exec-selection);
+    color: var(--exec-cream);
+    text-shadow: none;
+}
+
+a {
+    color: var(--exec-blue);
+    text-decoration: none;
+    outline: 0;
+    transition: color .15s ease-in-out;
+}
+
+a:hover {
+    color: var(--exec-teal-bright);
+    text-decoration: underline;
+    text-decoration-color: var(--exec-purple);
+    text-underline-offset: 3px;
+}
+
+a:focus {
+    outline: thin dotted var(--exec-jade-bright);
+}
+
+p {
+    word-wrap: break-word;
+}
+
+p,
+ul,
+dd,
+ol,
+hr,
+address,
+pre,
+table,
+iframe {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+}
+
+/* ========================================================================
+   4. Headings — coral for the top tiers, gold below, brown "moulding" rule
+   ======================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-feature-settings: var(--features-prose);
+    clear: both;
+    word-wrap: break-word;
+    margin: 0;
+    padding: 0;
+    line-height: 1.25;
+    color: var(--exec-coral);
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    margin-top: 1.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--exec-brown);
+}
+
+h2 {
+    font-size: 1.625rem;
+    font-weight: 650;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: .3rem;
+    border-bottom: 1px solid var(--exec-brown-soft);
+}
+
+h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: .75rem;
+    color: var(--exec-gold);
+}
+
+h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: .6rem;
+    color: var(--exec-gold);
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: 650;
+    margin-top: 1.25rem;
+    margin-bottom: .5rem;
+    color: var(--exec-text-strong);
+}
+
+h6 {
+    font-size: .95rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: .5rem;
+    color: var(--exec-tan-light);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+/* "#" marks shown while a heading has focus — blue, as in VS Code */
+h1 .md-char, h2 .md-char, h3 .md-char, h4 .md-char, h5 .md-char, h6 .md-char {
+    color: var(--exec-blue);
+}
+
+h1.md-focus .md-attr,
+h2.md-focus .md-attr,
+h3.md-focus .md-attr,
+h4.md-focus .md-attr,
+h5.md-focus .md-attr,
+h6.md-focus .md-attr,
+.md-header-span .md-attr {
+    color: var(--exec-tan);
+    display: inline;
+}
+
+/* small hN label in the left margin of a focused h3–h6 */
+@media (min-width: 980px) {
+    #write > h3.md-focus:before,
+    #write > h4.md-focus:before,
+    #write > h5.md-focus:before,
+    #write > h6.md-focus:before {
+        font-family: var(--font-code);
+        color: var(--exec-tan);
+        border: 1px solid var(--exec-brown);
+        border-radius: 3px;
+        position: absolute;
+        left: -1.75rem;
+        top: .35rem;
+        font-size: 9px;
+        line-height: normal;
+        padding: 0 2px;
+        font-weight: normal;
+        text-decoration: none;
+    }
+    #write > h3.md-focus:before { content: 'h3'; }
+    #write > h4.md-focus:before { content: 'h4'; }
+    #write > h5.md-focus:before { content: 'h5'; top: 0; }
+    #write > h6.md-focus:before { content: 'h6'; top: 0; }
+}
+
+/* ========================================================================
+   5. Inline markup
+   ======================================================================== */
+
+b, strong, th, dt {
+    font-weight: var(--strong-weight);
+    color: var(--exec-orange);            /* markup.bold */
+}
+
+i, em, dfn, cite {
+    font-style: italic;
+    color: var(--exec-purple);            /* markup.italic */
+}
+
+strong em, em strong, b i, i b {
+    color: var(--exec-gold);
+}
+
+del, s {
+    color: var(--exec-muted);
+    text-decoration-color: var(--exec-coral);
+}
+
+u {
+    text-decoration-color: var(--exec-jade-light);
+    text-underline-offset: 3px;
+}
+
+mark {
+    background: var(--exec-brown);
+    color: var(--exec-cream);
+    padding: 0 .2em;
+    border-radius: 2px;
+}
+
+/* the ==, **, ~~ etc. syntax characters Typora reveals on focus */
+.md-char,
+.md-meta,
+.md-content .md-meta,
+.md-image > .md-meta {
+    color: var(--exec-tan);
+    background: transparent;
+}
+
+.md-expand.md-image > .md-meta,
+.md-expand .md-meta {
+    color: var(--exec-tan-light);
+}
+
+sup.md-footnote {
+    background-color: var(--exec-jade);
+    color: var(--exec-cream);
+    font-family: var(--font-code);
+}
+
+.md-footnote-block .md-fn-count {
+    color: var(--exec-blue);
+}
+
+.md-def-name,
+.md-def-content,
+.md-def-link,
+.md-def-split {
+    color: var(--exec-tan-light);
+}
+
+.md-def-url {
+    color: var(--exec-purple);
+}
+
+.md-emoji {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.md-comment {
+    color: var(--exec-comment);
+    font-style: italic;
+    opacity: .9;
+}
+
+.md-inline-math script,
+.md-inline-math svg,
+.md-math-block svg {
+    color: var(--exec-text-soft);
+}
+
+.md-mathjax-midline {
+    background-color: var(--exec-bg-raised);
+    border-bottom: none;
+}
+
+#math-inline-preview .md-arrow:after {
+    background: var(--exec-bg-raised);
+}
+
+.md-html-inline {
+    color: var(--exec-coral);
+}
+
+/* Inline code */
+code, tt, var, kbd {
+    font-family: var(--font-code);
+    font-feature-settings: var(--features-code);
+    font-size: .875em;
+}
+
+code, tt, var {
+    color: var(--exec-green);             /* markup.inline.raw */
+    background: var(--exec-bg-raised);
+    border: 1px solid #2b3536;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-weight: 450;
+}
+
+kbd {
+    color: var(--exec-text-strong);
+    background: #2c3838;
+    border: 1px solid var(--exec-brown);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 85%;
+    font-weight: 500;
+}
+
+/* ========================================================================
+   6. Block elements
+   ======================================================================== */
+
+hr {
+    height: 1px;
+    border: 0;
+    background: var(--exec-brown);
+    margin: 2rem 0 !important;
+}
+
+blockquote {
+    margin: 1.5rem 0 1.5rem 0;
+    padding: .25rem 1.25rem .25rem 1.5rem;
+    border-left: 3px solid var(--exec-brown);
+    color: var(--exec-tan-light);
+    font-style: italic;
+}
+
+blockquote strong { color: var(--exec-orange); }
+blockquote em     { color: var(--exec-purple); }
+blockquote code   { font-style: normal; }
+
+blockquote blockquote {
+    margin-left: 0;
+    border-left-color: var(--exec-brown-mid);
+}
+
+/* Lists */
+ul, ol {
+    padding: 0 0 0 1.75rem;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+    margin: 0;
+}
+
+li {
+    margin: .2rem 0;
+}
+
+li::marker {
+    color: var(--exec-coral);             /* punctuation.definition.list */
+}
+
+ol > li::marker {
+    font-family: var(--font-code);
+    font-weight: 500;
+}
+
+/* Task lists */
+.task-list {
+    padding-left: 0;
+}
+
+.md-task-list-item {
+    padding-left: 1.5rem;
+    list-style: none;
+}
+
+.md-task-list-item > input {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-left: -1.5rem;
+    margin-top: .45rem;
+    top: auto;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.md-task-list-item > input:before {
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid var(--exec-brown-mid);
+    border-radius: 3px;
+    background-color: var(--exec-bg-input);
+    transition: background-color .12s ease-in-out, border-color .12s ease-in-out;
+}
+
+.md-task-list-item > input:hover:before {
+    border-color: var(--exec-tan);
+}
+
+.md-task-list-item > input:checked:before,
+.md-task-list-item > input[checked]:before {
+    content: '\2713';
+    font-family: var(--font-code);
+    font-size: .7rem;
+    line-height: .85rem;
+    font-weight: 700;
+    color: var(--exec-cream);
+    background-color: var(--exec-jade);
+    border-color: var(--exec-jade-light);
+}
+
+.md-task-list-item.task-list-done > p {
+    color: var(--exec-muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--exec-brown-mid);
+}
+
+/* Tables */
+table {
+    max-width: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: .95em;
+}
+
+th, td {
+    padding: 7px 12px;
+    vertical-align: top;
+    border: 1px solid var(--exec-brown-line);
+}
+
+th {
+    background: #1e2828;                   /* tab.inactiveBackground */
+    color: var(--exec-text-strong);
+    font-weight: 650;
+    text-align: left;
+}
+
+tbody tr:nth-child(2n) {
+    background: rgba(255, 255, 255, .02);
+}
+
+table a {
+    color: var(--exec-blue);
+}
+
+.ty-table-edit {
+    border-top: 1px solid var(--exec-brown-line);
+    background-color: var(--exec-bg-raised);
+}
+
+.md-table-resize-popover,
+.md-table-edit .popover-content {
+    background-color: var(--exec-bg-menu);
+    border: 1px solid var(--exec-brown);
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    border-radius: 3px;
+}
+
+.md-image > .md-meta {
+    font-family: var(--font-code);
+    font-size: .85em;
+    color: var(--exec-tan);
+}
+
+.md-img-error img {
+    outline: 1px dashed var(--exec-red);
+}
+
+/* YAML front matter */
+#write pre.md-meta-block {
+    background: var(--exec-bg-raised);
+    color: var(--exec-tan-light);
+    border: 1px dashed var(--exec-brown);
+    border-radius: 4px;
+    padding: .75rem 1rem;
+    line-height: 1.6;
+    font-family: var(--font-code);
+    font-feature-settings: var(--features-code);
+}
+
+/* Table of contents */
+.md-toc {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: var(--exec-bg-raised);
+    border: 1px solid #2b3536;
+    border-radius: 4px;
+}
+
+.md-toc-content {
+    font-size: .95em;
+}
+
+.md-toc-item {
+    color: var(--exec-tan-light);
+    text-decoration: none;
+}
+
+.md-toc-item:hover {
+    color: var(--exec-text-strong);
+}
+
+.md-toc-h1 .md-toc-item { color: var(--exec-coral); font-weight: 600; }
+.md-toc-h2 .md-toc-item { color: var(--exec-text); }
+
+#write div.md-toc-tooltip {
+    background-color: var(--exec-bg-menu);
+    color: var(--exec-text-title);
+    border: 1px solid var(--exec-brown);
+}
+
+/* GitHub-style alerts */
+.md-alert {
+    border-left-width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: rgba(255, 255, 255, .02);
+}
+
+.md-alert-text {
+    font-family: var(--font-heading);
+    font-weight: 650;
+}
+
+.md-alert-note      { border-color: var(--exec-blue);   }
+.md-alert-tip       { border-color: var(--exec-green);  }
+.md-alert-important { border-color: var(--exec-purple); }
+.md-alert-warning   { border-color: var(--exec-gold);   }
+.md-alert-caution   { border-color: var(--exec-coral);  }
+
+.md-alert-text-note      { color: var(--exec-blue);   }
+.md-alert-text-tip       { color: var(--exec-green);  }
+.md-alert-text-important { color: var(--exec-purple); }
+.md-alert-text-warning   { color: var(--exec-gold);   }
+.md-alert-text-caution   { color: var(--exec-coral);  }
+
+/* ========================================================================
+   7. Code fences (CodeMirror, .cm-s-inner)
+   ------------------------------------------------------------------------
+   Token → VS Code scope mapping:
+     keyword     keyword / storage                #ab66c0
+     atom/number constant.numeric                 #dd8730
+     def         entity.name.function             #2b9ed1
+     variable    variable                         #ff7353
+     variable-2  variable.language                #ffc848
+     variable-3  support.type / entity.name.type  #02c4ba
+     property    meta.object-literal.key          #ff7353
+     operator    keyword.operator                 #d9bd7d
+     comment     comment                          #996b3d italic
+     string      string                           #acdb47
+     string-2    string.regexp                    #02c4ba
+     meta        entity.other.attribute-name      #dd8730
+     builtin     support.function                 #02c4ba
+     tag         entity.name.tag                  #ff7353
+     attribute   entity.other.attribute-name      #dd8730
+   ======================================================================== */
+
+pre.md-fences,
+.md-fences {
+    font-family: var(--font-code);
+    font-feature-settings: var(--features-code);
+    font-size: .875rem;
+    line-height: 1.6;
+    background: var(--exec-bg-raised);
+    border: 1px solid #2b3536;
+    border-radius: 4px;
+    padding: 12px 14px 12px 14px;
+    margin-bottom: 1.5rem;
+}
+
+.md-fences.md-focus {
+    border-color: var(--exec-brown);
+}
+
+.md-fences .CodeMirror,
+.md-fences .CodeMirror-scroll,
+.md-fences .CodeMirror-lines {
+    font-family: var(--font-code);
+    font-feature-settings: var(--features-code);
+    font-weight: 400;
+}
+
+.md-fences .CodeMirror {
+    background: transparent;
+    color: var(--exec-text);
+}
+
+.md-fences-with-lineno .CodeMirror-gutters,
+.CodeMirror-gutters {
+    background: var(--exec-bg-raised);
+    border-right: 1px solid #2b3536;
+}
+
+.CodeMirror-linenumber {
+    color: var(--exec-tan);
+    font-family: var(--font-code);
+    font-variant-numeric: tabular-nums;
+}
+
+.CodeMirror-activeline .CodeMirror-linenumber,
+.CodeMirror-activeline-gutter .CodeMirror-linenumber {
+    color: var(--exec-lineno-active);
+}
+
+.cm-s-inner .CodeMirror-activeline-background {
+    background: rgba(255, 255, 255, .04);
+}
+
+.CodeMirror div.CodeMirror-cursor,
+.CodeMirror.cm-s-inner div.CodeMirror-cursor {
+    border-left: 2px solid var(--exec-cursor);
+    z-index: 3;
+}
+
+.CodeMirror-selectedtext,
+.CodeMirror-selected,
+.cm-s-inner div.CodeMirror-selected {
+    background: var(--exec-selection-code);
+    text-shadow: none;
+}
+
+.cm-s-inner .CodeMirror-matchingbracket {
+    color: var(--exec-text-strong) !important;
+    outline: 1px solid #888888;
+    background: rgba(0, 100, 0, .1);
+}
+
+.cm-s-inner .CodeMirror-nonmatchingbracket {
+    color: var(--exec-red) !important;
+}
+
+.cm-s-inner .cm-keyword           { color: var(--exec-purple); }
+.cm-s-inner .cm-atom              { color: var(--exec-orange); }
+.cm-s-inner .cm-number            { color: var(--exec-orange); }
+.cm-s-inner .cm-def               { color: var(--exec-blue); }
+.cm-s-inner .cm-variable          { color: var(--exec-coral); }
+.cm-s-inner .cm-variable-2        { color: var(--exec-gold); }
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-type              { color: var(--exec-teal); }
+.cm-s-inner .cm-property          { color: var(--exec-coral); }
+.cm-s-inner .cm-operator          { color: var(--exec-sand); }
+.cm-s-inner .cm-punctuation       { color: var(--exec-sand); }
+.cm-s-inner .cm-comment,
+.cm-s-inner.cm-comment            { color: var(--exec-comment); font-style: italic; }
+.cm-s-inner .cm-string            { color: var(--exec-green); }
+.cm-s-inner .cm-string-2          { color: var(--exec-teal); }
+.cm-s-inner .cm-meta              { color: var(--exec-orange); }
+.cm-s-inner .cm-qualifier         { color: var(--exec-orange); }
+.cm-s-inner .cm-builtin           { color: var(--exec-teal); }
+.cm-s-inner .cm-bracket           { color: var(--exec-sand); }
+.cm-s-inner .cm-tag               { color: var(--exec-coral); }
+.cm-s-inner .cm-attribute         { color: var(--exec-orange); }
+.cm-s-inner .cm-header,
+.cm-s-inner.cm-header             { color: var(--exec-coral); font-weight: 600; }
+.cm-s-inner .cm-quote,
+.cm-s-inner.cm-quote              { color: var(--exec-comment); }
+.cm-s-inner .cm-hr                { color: var(--exec-brown-mid); }
+.cm-s-inner .cm-link              { color: var(--exec-purple); text-decoration: underline; }
+.cm-s-inner .cm-url               { color: var(--exec-purple); }
+.cm-s-inner .cm-em                { color: var(--exec-purple); font-style: italic; }
+.cm-s-inner .cm-strong            { color: var(--exec-orange); font-weight: 700; }
+.cm-s-inner .cm-strikethrough     { color: var(--exec-muted); text-decoration: line-through; }
+.cm-s-inner .cm-error             { color: var(--exec-red); }
+.cm-s-inner .cm-invalidchar       { color: var(--exec-red); }
+.cm-s-inner .cm-negative          { color: var(--exec-coral); }   /* markup.deleted.diff  */
+.cm-s-inner .cm-positive          { color: var(--exec-green); }   /* markup.inserted.diff */
+.cm-s-inner .cm-searching         { background: var(--exec-find); color: var(--exec-cream); }
+
+/* language label / picker in the corner of a fence */
+.md-fences .code-tooltip,
+.code-tooltip {
+    background: var(--exec-bg-menu);
+    color: var(--exec-tan-light);
+    border: 1px solid var(--exec-brown);
+    border-radius: 3px;
+    font-family: var(--font-code);
+    font-size: .8rem;
+}
+
+.ty-cm-lang-input,
+.code-tooltip .ty-cm-lang-input {
+    color: var(--exec-text-strong);
+    background: transparent;
+}
+
+.auto-suggest-container,
+.ty-cm-lang-input-suggest {
+    background: var(--exec-bg-menu);
+    border: 1px solid var(--exec-brown);
+    color: var(--exec-text-title);
+}
+
+.auto-suggest-container .autoComplt-hint,
+.autoComplt-hint {
+    color: var(--exec-text-title);
+}
+
+.autoComplt-hint.active,
+.autoComplt-hint:hover,
+.auto-suggest-container .active {
+    background: var(--exec-bg-hover);
+    color: var(--exec-text-strong);
+}
+
+/* diagrams */
+#write .md-focus .md-diagram-panel {
+    border: 1px solid var(--exec-brown);
+    margin-left: -1px;
+    width: calc(100% + 2px);
+    background: var(--exec-bg-raised);
+}
+
+#write .md-focus.md-fences-with-lineno .md-diagram-panel {
+    margin-left: auto;
+}
+
+.md-diagram-panel-error {
+    color: var(--exec-coral);
+}
+
+[lang='mermaid'] .label {
+    color: var(--exec-text);
+}
+
+/* Diagrams and other embedded renderers may draw with a non-Monaspace font.
+   Stylistic sets are font-specific (Trebuchet MS reads ss03 as small caps),
+   so only the universally safe features are inherited here. */
+.md-diagram-panel,
+.md-diagram-panel svg,
+.md-diagram-panel svg text,
+.md-diagram-panel svg foreignObject *,
+[lang='mermaid'] svg,
+[lang='mermaid'] svg text,
+[lang='mermaid'] svg foreignObject *,
+[lang='flow'] svg,
+[lang='sequence'] svg {
+    font-feature-settings: "calt" 1, "liga" 1;
+}
+
+/* math blocks */
+.md-math-block .md-rawblock-container,
+.md-rawblock-container {
+    background: var(--exec-bg-raised);
+    border-radius: 4px;
+}
+
+.md-rawblock .md-rawblock-tooltip,
+.md-rawblock-tooltip {
+    background: var(--exec-bg-menu);
+    color: var(--exec-tan-light);
+    border: 1px solid var(--exec-brown);
+    font-family: var(--font-code);
+}
+
+.md-rawblock > .md-rawblock-container.md-focus,
+.md-rawblock-input,
+.md-rawblock .CodeMirror {
+    background: var(--exec-bg-raised);
+}
+
+/* ========================================================================
+   8. Source-code mode (#typora-source, .cm-s-typora-default)
+   ======================================================================== */
+
+#typora-source,
+#typora-source .CodeMirror,
+.cm-s-typora-default {
+    background: var(--bg-color);
+    color: var(--exec-text);
+    font-family: var(--font-code);
+    font-feature-settings: var(--features-code);
+}
+
+#typora-source .CodeMirror-lines {
+    font-family: var(--font-code);
+}
+
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
+    border-left: 2px solid var(--exec-cursor);
+}
+
+.cm-s-typora-default .CodeMirror-activeline-background {
+    background: rgba(255, 255, 255, .04);
+}
+
+.cm-s-typora-default .CodeMirror-gutters {
+    background: var(--bg-color);
+    border-right: 1px solid var(--exec-brown-soft);
+}
+
+.cm-s-typora-default .cm-header        { color: var(--exec-coral); font-weight: 600; }
+.cm-s-typora-default .cm-header .cm-formatting-header { color: var(--exec-blue); }
+.cm-s-typora-default .cm-strong        { color: var(--exec-orange); font-weight: 700; }
+.cm-s-typora-default .cm-em            { color: var(--exec-purple); font-style: italic; }
+.cm-s-typora-default .cm-strikethrough { color: var(--exec-muted); }
+.cm-s-typora-default .cm-comment,
+.cm-s-typora-default .cm-code          { color: var(--exec-green); }
+.cm-s-typora-default .cm-string        { color: var(--exec-purple); }   /* link urls */
+.cm-s-typora-default .cm-link          { color: var(--exec-blue); }
+.cm-s-typora-default .cm-url           { color: var(--exec-purple); }
+.cm-s-typora-default .cm-atom,
+.cm-s-typora-default .cm-number        { color: var(--exec-orange); font-style: normal; }
+.cm-s-typora-default .cm-quote         { color: var(--exec-comment); }
+.cm-s-typora-default .cm-hr            { color: var(--exec-brown-mid); }
+.cm-s-typora-default .cm-variable-2    { color: var(--exec-coral); }    /* list markers */
+.cm-s-typora-default .cm-variable-3    { color: var(--exec-coral); }
+.cm-s-typora-default .cm-keyword       { color: var(--exec-purple); }
+.cm-s-typora-default .cm-tag           { color: var(--exec-coral); }
+.cm-s-typora-default .cm-attribute     { color: var(--exec-orange); }
+.cm-s-typora-default .cm-property      { color: var(--exec-text-strong); }
+.cm-s-typora-default .cm-meta          { color: var(--exec-tan); }
+.cm-s-typora-default .cm-formatting    { color: var(--exec-tan); }
+.cm-s-typora-default .cm-searching     { background: var(--exec-find); color: var(--exec-cream); }
+
+/* ========================================================================
+   9. Window chrome — title bar, sidebar, footer
+   ======================================================================== */
+
+#top-titlebar,
+#top-titlebar * {
+    color: var(--exec-text-title);
+}
+
+#top-titlebar {
+    background: var(--exec-bg-panel);
+    border-bottom: 1px solid #684f34;      /* titleBar.border */
+}
+
+.megamenu-opened header,
+.megamenu-content {
+    background: var(--bg-color);
+}
+
+/* Sidebar */
+#typora-sidebar {
+    background-color: var(--side-bar-bg-color);
+    color: var(--exec-text-sidebar);
+    box-shadow: none;
+    border-right: 1px solid var(--exec-brown-soft);
+    font-family: var(--font-prose);
+    font-size: .9rem;
+}
+
+.sidebar-tabs {
+    border-bottom: 0;
+}
+
+.sidebar-tabs .sidebar-tab {
+    color: var(--exec-tan-light);
+}
+
+.sidebar-tabs .sidebar-tab.active,
+.active-tab-files #info-panel-tab-file,
+.active-tab-files #info-panel-tab-file:hover,
+.active-tab-outline #info-panel-tab-outline,
+.active-tab-outline #info-panel-tab-outline:hover {
+    color: var(--exec-text-strong);
+}
+
+.info-panel-tab-border,
+.sidebar-tab-border {
+    background: var(--exec-jade-light);
+}
+
+#typora-sidebar .file-node-content,
+#typora-sidebar .file-list-item {
+    color: var(--exec-text-sidebar);
+}
+
+.file-node-content:hover,
+.file-list-item:hover {
+    color: var(--exec-text-strong);
+}
+
+.file-node-background {
+    height: 32px;
+}
+
+.file-library-node:not(.active) > .file-node-content:hover ~ .file-node-background,
+.file-tree-node:not(.active) > .file-node-content:hover ~ .file-node-background {
+    background-color: rgba(94, 62, 29, .22);   /* list.hoverBackground */
+}
+
+.file-library-node.active > .file-node-content,
+.file-list-item.active {
+    color: var(--active-file-text-color);
+}
+
+.file-library-node.active > .file-node-background,
+.file-list-item.active {
+    background-color: var(--active-file-bg-color);
+}
+
+.file-list-item {
+    border-bottom: 1px solid rgba(94, 62, 29, .3);
+}
+
+.file-list-item.active:first-child {
+    border-top: none;
+}
+
+.file-list-item-summary,
+.file-list-item-time,
+.file-list-item-parent-loc {
+    color: var(--exec-tan);
+    opacity: 1;
+}
+
+.file-list-item.active .file-list-item-summary,
+.file-list-item.active .file-list-item-time {
+    color: var(--exec-tan-light);
+}
+
+.file-node-icon,
+.file-node-open-state {
+    color: var(--exec-tan);
+}
+
+.file-library-node.active .file-node-icon {
+    color: var(--exec-teal);
+}
+
+.file-node-title {
+    line-height: 22px;
+}
+
+[data-is-directory="true"] .file-node-content {
+    margin-bottom: 0;
+}
+
+/* try fix https://github.com/typora/typora-issues/issues/5253 */
+.file-node-expanded > .file-node-children {
+    display: grid;
+}
+
+/* Outline */
+.outline-item {
+    color: var(--exec-text-sidebar);
+}
+
+.outline-item:hover {
+    border-color: var(--exec-bg-hover);
+    background-color: var(--exec-bg-hover);
+    color: var(--exec-text-strong);
+}
+
+.outline-h1 > .outline-item { color: var(--exec-coral); font-weight: 600; }
+
+.outline-title-wrapper .btn,
+.outline-expander {
+    color: inherit;
+}
+
+.outline-expander:before {
+    top: 2px;
+}
+
+#typora-sidebar:hover .outline-title-wrapper {
+    border-left: 1px dashed var(--exec-brown);
+}
+
+.sidebar-footer,
+.ty-sidebar-footer {
+    background: var(--exec-bg-panel);
+    border-top: 1px solid var(--exec-brown-soft);
+}
+
+.sidebar-footer-item,
+.footer-item {
+    color: var(--exec-tan-light);
+}
+
+.sidebar-footer-item:hover,
+.footer-item:hover {
+    background: inherit;
+    color: var(--exec-text-strong);
+}
+
+.ty-side-sort-btn.active,
+.ty-side-sort-btn:hover,
+.selected-folder-menu-item a:after {
+    color: var(--exec-teal);
+}
+
+#sidebar-files-menu {
+    border: 1px solid var(--exec-brown);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, .6);
+    background-color: var(--exec-bg-menu);
+}
+
+#typora-sidebar-resizer {
+    background: transparent;
+}
+
+/* Footer / word count — the jade "status bar" from VS Code */
+footer.ty-footer {
+    background: var(--exec-jade-deep);
+    color: var(--exec-text-sidebar);
+    border-top: 1px solid #2c4141;        /* statusBar.border */
+    font-family: var(--font-code);
+    font-size: .8rem;
+}
+
+footer,
+footer .footer-item,
+#footer-word-count,
+#footer-word-count-label {
+    color: var(--exec-text-sidebar);
+}
+
+@media (max-width: 1000px) {
+    footer { border-top: none; }
+    footer:hover { color: inherit; }
+}
+
+#footer-word-count-info,
+.footer-item-popover {
+    background-color: var(--exec-bg-menu);
+    color: var(--exec-text-title);
+    border: 1px solid var(--exec-brown);
+}
+
+.typora-sourceview-on #toggle-sourceview-btn,
+#footer-word-count:hover,
+.ty-show-word-count #footer-word-count,
+#toggle-sourceview-btn:hover {
+    background: var(--exec-jade);
+    color: var(--exec-cream);
+}
+
+#file-info-file-path .file-info-field-value:hover {
+    background-color: var(--exec-bg-hover);
+    color: var(--exec-text-strong);
+}
+
+#w-unpin {
+    background-color: var(--exec-jade);
+}
+
+.mouse-hover .toolbar-icon.btn:hover,
+#w-full.mouse-hover,
+#w-pin.mouse-hover {
+    background-color: inherit;
+}
+
+/* ========================================================================
+   10. Menus, popovers, tooltips, notifications
+   ======================================================================== */
+
+.context-menu,
+.dropdown-menu,
+#spell-check-panel {
+    background-color: var(--exec-bg-menu);
+    color: var(--exec-text-title);
+    border: 1px solid #5e3f1d;             /* menu.border */
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .45);
+}
+
+.dropdown-menu > li > a,
+.context-menu > li > a {
+    color: var(--exec-text-title);
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-menu > .active > a,
+.context-menu > li > a:hover {
+    background-color: var(--exec-bg-hover);
+    color: #f7d6b5;                        /* menu.selectionForeground */
+}
+
+.dropdown-menu .divider,
+.context-menu.dropdown-menu .divider {
+    background-color: #225d60;             /* menu.separatorBackground */
+    opacity: 1;
+}
+
+.dropdown-menu .btn:hover,
+.dropdown-menu .btn:focus,
+.md-toc .btn:hover,
+.md-toc .btn:focus {
+    color: var(--exec-text-strong);
+    background: var(--exec-bg-hover);
+}
+
+#toc-dropmenu {
+    background: rgba(39, 48, 48, .96);
+    border: 1px solid var(--exec-brown);
+}
+
+#toc-dropmenu .divider {
+    background-color: #225d60;
+}
+
+.megamenu-menu-panel .dropdown-menu > li > a {
+    color: inherit;
+    background-color: var(--exec-bg-menu);
+    text-decoration: none;
+}
+
+div.code-tooltip,
+.md-hover-tip .md-arrow:after {
+    background: var(--exec-bg-menu);
+}
+
+.popover {
+    background: var(--exec-bg-menu);
+    border: 1px solid var(--exec-brown);
+    color: var(--exec-text-title);
+}
+
+.popover.bottom > .arrow:after   { border-bottom-color: var(--exec-bg-menu); }
+.popover.top > .arrow:after      { border-top-color: var(--exec-bg-menu); }
+.popover.left > .arrow:after     { border-left-color: var(--exec-bg-menu); }
+.popover.right > .arrow:after    { border-right-color: var(--exec-bg-menu); }
+
+.popover-title {
+    background: transparent;
+    color: var(--exec-text-strong);
+    border-bottom: 1px solid var(--exec-brown-soft);
+}
+
+#ty-tooltip {
+    background-color: var(--exec-bg);
+    color: var(--exec-cursor);             /* editorHoverWidget.foreground */
+    border: 1px solid var(--exec-brown);
+}
+
+.native-window #md-notification,
+#md-notification {
+    background: #1c2828;                   /* notifications.background */
+    color: #e4c98b;                        /* notifications.foreground */
+    border: 1px solid #493016;             /* notifications.border */
+}
+
+#md-notification .btn {
+    color: var(--exec-teal);
+}
+
+.md-search-hit {
+    background: var(--exec-find);
+    color: var(--exec-cream);
+}
+
+.md-search-hit * {
+    color: var(--exec-cream);
+}
+
+.ty-editor-toolbar {
+    background: var(--exec-bg-menu);
+    border: 1px solid var(--exec-brown);
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 40%));
+    --text-color: var(--exec-text-title);
+}
+
+.ty-editor-toolbar .toolbar-btn:hover,
+.ty-editor-toolbar .btn:hover {
+    background: var(--exec-bg-hover);
+}
+
+/* ========================================================================
+   11. Quick open, search panel, inputs, buttons
+   ======================================================================== */
+
+#typora-quick-open {
+    background-color: var(--exec-bg-menu);
+    border: 1px solid var(--exec-brown);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .6);
+}
+
+#typora-quick-open input {
+    background-color: var(--exec-bg-input);
+    color: var(--exec-text-input);
+    border: 0;
+    border-bottom: 1px solid var(--exec-brown);
+    font-family: var(--font-prose);
+}
+
+.typora-quick-open-item {
+    background-color: inherit;
+    color: var(--exec-text-title);
+}
+
+.typora-quick-open-item-path {
+    color: var(--exec-tan);
+}
+
+.typora-quick-open-item.active,
+.typora-quick-open-item:hover {
+    background-color: var(--exec-bg-active);
+    color: var(--exec-text-strong);
+}
+
+.typora-quick-open-item.active .typora-quick-open-item-path {
+    color: var(--exec-tan-light);
+}
+
+.typora-search-spinner > div {
+    background-color: var(--exec-teal);
+}
+
+#md-searchpanel {
+    background: var(--exec-bg-panel);
+    border-bottom: 1px solid var(--exec-brown-soft);
+}
+
+#md-searchpanel input,
+#md-searchpanel .form-control {
+    background: var(--exec-bg-input);
+    color: var(--exec-text-input);
+    border: 1px solid var(--exec-brown);
+    font-family: var(--font-prose);
+}
+
+#md-searchpanel input:focus {
+    border-color: var(--exec-jade-bright);
+    box-shadow: 0 0 0 1px var(--exec-jade-bright);
+}
+
+#md-searchpanel .btn,
+#md-searchpanel .search-panel-btn {
+    color: var(--exec-tan-light);
+}
+
+#md-searchpanel .btn:hover {
+    color: var(--exec-text-strong);
+}
+
+.search-panel-btn.active,
+#md-searchpanel .btn.active {
+    color: var(--exec-teal);
+    background: var(--exec-bg-hover);
+}
+
+input,
+textarea,
+select,
+.form-control {
+    background: var(--exec-bg-input);
+    color: var(--exec-text-input);
+    border: 1px solid var(--exec-brown);
+    border-radius: 3px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--exec-placeholder);
+}
+
+input:focus,
+textarea:focus,
+.form-control:focus {
+    outline: none;
+    border-color: var(--exec-jade-bright);
+    box-shadow: 0 0 0 1px var(--exec-jade-bright);
+}
+
+.btn,
+.btn .btn-default,
+.btn-default {
+    background: transparent;
+    color: var(--exec-text);
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+    color: var(--exec-text-strong);
+    border: 1px solid var(--exec-brown);
+    background-color: var(--exec-bg-hover);
+}
+
+.btn-primary,
+.modal-content .btn-primary {
+    background: var(--exec-btn);
+    color: var(--exec-cream);
+    border: 1px solid var(--exec-btn);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.modal-content .btn-primary:hover {
+    background: var(--exec-btn-hover);
+    border-color: var(--exec-btn-hover);
+    color: #ffffff;
+}
+
+.long-btn {
+    color: inherit;
+}
+
+/* ========================================================================
+   12. Modals
+   ======================================================================== */
+
+.modal-content {
+    background: var(--exec-bg-raised);
+    color: var(--exec-text-title);
+    border: 1px solid var(--exec-brown);
+    border-radius: 6px;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, .6);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--exec-brown-soft);
+}
+
+.modal-title {
+    font-family: var(--font-heading);
+    font-size: 1.35em;
+    font-weight: 600;
+    color: var(--exec-text-strong);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--exec-brown-soft);
+}
+
+.modal-footer .btn-default,
+.modal-footer .btn-primary,
+.modal-footer .btn-default:not(:hover) {
+    border: 1px solid;
+    border-color: transparent;
+}
+
+.modal-footer .btn-primary {
+    border-color: var(--exec-btn);
+}
+
+.modal-content input,
+.modal-content textarea {
+    background-color: var(--exec-bg-input);
+    color: var(--exec-text-input);
+}
+
+.modal-content .input-group-addon,
+.form-inline .input-group .input-group-addon {
+    background: var(--exec-bg-panel);
+    color: var(--exec-tan-light);
+    border: 1px solid var(--exec-brown);
+}
+
+.modal-backdrop {
+    background-color: rgba(8, 12, 13, .7);
+}
+
+.modal-backdrop.in {
+    opacity: 1;
+    backdrop-filter: blur(2px);
+}
+
+/* ========================================================================
+   13. Megamenu (File > … full-screen panel) and Preferences
+   ======================================================================== */
+
+.megamenu-menu-panel h1,
+.megamenu-menu-panel h2 {
+    color: var(--exec-text-strong);
+    border: none;
+}
+
+.megamenu-menu-panel input[type='text'] {
+    background: inherit;
+    border: 0;
+    border-bottom: 1px solid var(--exec-brown);
+    color: var(--exec-text-input);
+}
+
+#recent-file-panel-action-btn {
+    background: inherit;
+    border: 1px solid var(--exec-brown);
+    color: var(--exec-text-title);
+}
+
+.megamenu-menu-panel table td:nth-child(1) {
+    color: inherit;
+    font-weight: 600;
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(1) {
+    color: var(--exec-text-strong);
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(2) {
+    color: inherit;
+}
+
+#recent-file-panel tbody tr:nth-child(2n-1) {
+    background-color: transparent !important;
+}
+
+.megamenu-menu-panel .btn {
+    border: 1px solid var(--exec-brown);
+    background: transparent;
+    color: var(--exec-text-title);
+}
+
+.megamenu-menu-list li a.active,
+.megamenu-menu-list li a:hover {
+    color: var(--exec-text-strong);
+    background: var(--exec-bg-hover);
+}
+
+.megamenu-menu {
+    background: var(--exec-bg-sidebar);
+    border-right: 1px solid var(--exec-brown-soft);
+}
+
+.megamenu-menu-header {
+    border-bottom: 1px solid var(--exec-brown-soft);
+}
+
+.megamenu-menu-header #megamenu-menu-header-title {
+    color: var(--exec-text-strong);
+}
+
+.ty-preferences .btn-default {
+    background: transparent;
+}
+
+.ty-preferences .btn-default:hover {
+    background: var(--exec-bg-hover);
+}
+
+.ty-preferences select {
+    border: 1px solid var(--exec-brown);
+    height: 21px;
+    background: var(--exec-bg-input);
+    color: var(--exec-text-input);
+}
+
+.ty-preferences .nav-group-item.active,
+.export-item.active,
+.export-items-list-control,
+.export-detail {
+    background: var(--item-hover-bg-color);
+}
+
+.nav-group-item:active {
+    background-color: var(--exec-bg-active) !important;
+}
+
+.ty-preferences input[type="search"] {
+    border-color: var(--exec-brown);
+    background: var(--exec-bg-input);
+    line-height: 22px;
+    border-radius: 6px;
+    color: var(--exec-text-input);
+}
+
+.ty-preferences input[type="search"]:focus {
+    box-shadow: none;
+}
+
+/* ========================================================================
+   14. Scrollbars
+   ======================================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(117, 108, 92, .4);   /* scrollbarSlider.background */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 96, 86, .7);    /* scrollbarSlider.hoverBackground */
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(190, 177, 151, .4);  /* scrollbarSlider.activeBackground */
+}
+
+.typora-node::-webkit-scrollbar {
+    width: 6px;
+}
+
+#typora-sidebar:hover div.sidebar-content-content::-webkit-scrollbar-thumb:horizontal {
+    background: rgba(117, 108, 92, .4);
+}
+
+/* ========================================================================
+   15. Focus mode + typewriter mode
+   ======================================================================== */
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) *,
+.on-focus-mode li[cid]:not(.md-focus-container),
+.on-focus-mode .md-fences.md-focus .CodeMirror-code > *:not(.CodeMirror-activeline) *,
+.on-focus-mode .CodeMirror.cm-s-inner:not(.CodeMirror-focused) *,
+.on-focus-mode #typora-source .CodeMirror-code > *:not(.CodeMirror-activeline) * {
+    color: var(--exec-muted) !important;
+}
+
+.on-focus-mode .md-end-block:not(.md-focus) img,
+.on-focus-mode .md-task-list-item:not(.md-focus-container) > input {
+    opacity: .35;
+}
+
+.on-focus-mode .md-focus,
+.on-focus-mode .md-focus-container {
+    color: var(--exec-text-strong);
+}
+
+/* ========================================================================
+   16. Print / export
+   ------------------------------------------------------------------------
+   Exports keep the dark canvas so PDFs match the editor.  Delete this block
+   (or edit it) if you would rather export on white.
+   ======================================================================== */
+
+@media print {
+    html, body, #write {
+        background: var(--exec-bg) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    #write {
+        max-width: none;
+        padding-top: 0;
+    }
+    pre.md-fences {
+        break-inside: avoid;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+    }
+}
