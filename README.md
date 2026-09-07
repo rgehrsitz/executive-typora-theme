@@ -87,10 +87,13 @@ value once and it propagates everywhere it is used. Typora's own variables
 (`--bg-color`, `--text-color`, `--md-char-color`, `--monospace`, and so on)
 are set from those.
 
-Mermaid diagrams are drawn in Monaspace Argon via Typora's
-`--mermaid-font-family` variable. Diagram panels also reset the font features
-to `calt` and `liga` only, because stylistic sets mean different things in
-different fonts (Trebuchet MS, mermaid's default, treats `ss03` as small caps).
+The Monaspace ligature sets are applied only to the document body, headings,
+code and the sidebar. Typora draws its preferences panel, menus, dialogs and
+mermaid diagrams in system fonts, and OpenType stylistic sets mean different
+things in different fonts (Segoe UI and Trebuchet MS both turn some of them
+into small caps or unicase), so those areas get only `calt` and `liga` via
+`--features-safe`. Mermaid diagrams are additionally pointed at Monaspace
+Argon through Typora's `--mermaid-font-family` variable.
 
 Exports to PDF and HTML keep the dark canvas. Remove or edit the `@media print`
 block at the end of the file if you want to export on white.

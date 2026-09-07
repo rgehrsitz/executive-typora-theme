@@ -145,6 +145,11 @@
                       "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1;
     --features-code:  "calt" 1, "liga" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1,
                       "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1;
+    /* Stylistic sets are font-specific: Segoe UI and Trebuchet MS both read
+       some of them as small caps / unicase.  Only this list may sit on
+       elements that Typora draws in a system font (preferences, menus,
+       dialogs, diagrams).  The full lists are scoped to Monaspace elements. */
+    --features-safe:  "calt" 1, "liga" 1;
 
     --prose-weight:  400;
     --strong-weight: 700;
@@ -213,10 +218,34 @@ body {
 
 body {
     font-family: var(--font-prose);
-    font-feature-settings: var(--features-prose);
+    font-feature-settings: var(--features-safe);
     font-weight: var(--prose-weight);
     color: var(--text-color);
     line-height: 1.75;
+}
+
+/* Everything inside the document and the sidebar renders in Monaspace, so
+   the full ligature set is safe there. */
+#write,
+#typora-sidebar {
+    font-feature-settings: var(--features-prose);
+}
+
+/* Typora draws these in a system font; keep them on the safe list even if a
+   later rule sets features on an ancestor. */
+.ty-preferences,
+.megamenu-content,
+.megamenu-menu,
+.modal-content,
+.context-menu,
+.dropdown-menu,
+#md-searchpanel,
+#typora-quick-open,
+#md-notification,
+.ty-editor-toolbar,
+footer.ty-footer,
+#top-titlebar {
+    font-feature-settings: var(--features-safe);
 }
 
 html,
@@ -300,7 +329,6 @@ iframe {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-feature-settings: var(--features-prose);
     clear: both;
     word-wrap: break-word;
     margin: 0;
@@ -363,6 +391,10 @@ h6 {
     color: var(--exec-tan-light);
     text-transform: uppercase;
     letter-spacing: .06em;
+}
+
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6 {
+    font-feature-settings: var(--features-prose);
 }
 
 /* "#" marks shown while a heading has focus — blue, as in VS Code */
@@ -963,7 +995,7 @@ pre.md-fences,
 [lang='mermaid'] svg foreignObject *,
 [lang='flow'] svg,
 [lang='sequence'] svg {
-    font-feature-settings: "calt" 1, "liga" 1;
+    font-feature-settings: var(--features-safe);
 }
 
 /* math blocks */
