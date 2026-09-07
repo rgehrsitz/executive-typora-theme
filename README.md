@@ -8,6 +8,8 @@ Deep jade greens, rich brown accents, warm parchment text. Every colour in the
 stylesheet is lifted from the VS Code theme's JSON, and each variable in
 `executive.css` is annotated with the VS Code key it came from.
 
+![Executive for Typora: headings, prose, a table and a TypeScript code block rendered in Monaspace](docs/screenshot.png)
+
 ## Install
 
 1. Grab the files: `git clone https://github.com/rgehrsitz/executive-typora-theme.git`,
@@ -111,6 +113,9 @@ executive/
     MonaspaceRadonVar.woff2
     LICENSE-Monaspace-OFL.txt
 preview.md                    a document that exercises every styled element
+docs/
+  screenshot.md               the source of the README screenshot
+  screenshot.png
 ```
 
 ## Licence
