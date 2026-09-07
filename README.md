@@ -8,7 +8,7 @@ Deep jade greens, rich brown accents, warm parchment text. Every colour in the
 stylesheet is lifted from the VS Code theme's JSON, and each variable in
 `executive.css` is annotated with the VS Code key it came from.
 
-![Executive for Typora: headings, prose, a table and a TypeScript code block rendered in Monaspace](docs/screenshot.png)
+![Executive for Typora: preview.md open in Typora, showing front matter, headings, prose with inline styles, a table of contents, a blockquote and lists in Monaspace](docs/screenshot.png)
 
 ## Install
 
@@ -114,8 +114,8 @@ executive/
     LICENSE-Monaspace-OFL.txt
 preview.md                    a document that exercises every styled element
 docs/
-  screenshot.md               the source of the README screenshot
-  screenshot.png
+  screenshot.png              preview.md captured in Typora on Windows
+  screenshot.md               a compact alternative source document
 ```
 
 ## Licence
