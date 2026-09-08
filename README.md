@@ -90,12 +90,27 @@ value once and it propagates everywhere it is used. Typora's own variables
 are set from those.
 
 The Monaspace ligature sets are applied only to the document body, headings,
-code and the sidebar. Typora draws its preferences panel, menus, dialogs and
-mermaid diagrams in system fonts, and OpenType stylistic sets mean different
-things in different fonts (Segoe UI and Trebuchet MS both turn some of them
-into small caps or unicase), so those areas get only `calt` and `liga` via
-`--features-safe`. Mermaid diagrams are additionally pointed at Monaspace
-Argon through Typora's `--mermaid-font-family` variable.
+code and the sidebar. Typora draws its preferences panel, menus and dialogs
+in system fonts, and OpenType stylistic sets mean different things in
+different fonts (Segoe UI and Trebuchet MS both turn some of them into small
+caps or unicase), so those areas get only `calt` and `liga` via
+`--features-safe`.
+
+### Mermaid diagrams
+
+Diagrams render in Monaspace Argon with the Executive palette. Getting there
+needs three things, all in `executive.css`:
+
+- `--mermaid-theme: night` with `--mermaid-font-family`. Typora only forwards
+  the font to mermaid on its `night` path; naming a stock mermaid theme such
+  as `dark` makes it drop the font.
+- `!important` colour and font rules on the diagram SVG (section 7). Mermaid
+  writes its own `<style>` into every SVG and puts `font-family: sans-serif`
+  inline on some text, so ordinary rules cannot win. The same rules restyle
+  mermaid's hidden measurement SVG, which keeps node boxes sized for Argon.
+- The footer uses Argon so the font is loaded before the first diagram is
+  measured. Without it the first render measures against a fallback font and
+  clips labels.
 
 Exports to PDF and HTML keep the dark canvas. Remove or edit the `@media print`
 block at the end of the file if you want to export on white.

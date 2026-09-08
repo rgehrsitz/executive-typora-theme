@@ -192,12 +192,17 @@
     --drag-placeholder-color:   var(--exec-jade);
 
     --monospace: var(--font-code);
-    --node-fill: var(--exec-text);
 
-    --mermaid-theme: dark;
-    /* Typora passes this to mermaid; without it mermaid falls back to
-       Trebuchet MS, whose own ss03 stylistic set is small caps. */
+    /* ---- Mermaid ------------------------------------------------------
+       Typora only forwards --mermaid-font-family to mermaid on its "night"
+       path (naming a stock mermaid theme such as "dark" makes Typora ignore
+       the font, and its custom-variables path did not apply at all in
+       testing on Typora for Windows).  "night" gives mermaid's dark theme
+       in Argon; the Executive colours are then applied to the SVG by the
+       rules in section 7, which is also what makes them survive export. */
+    --mermaid-theme:       night;
     --mermaid-font-family: "Monaspace Argon", "Monaspace Neon", sans-serif;
+    --node-fill:           #112424;   /* sideBarSectionHeader.background  */
 }
 
 /* ========================================================================
@@ -983,6 +988,140 @@ pre.md-fences,
     color: var(--exec-text);
 }
 
+/* Typora initialises mermaid with a top-level fontFamily of "sans-serif".
+   Mermaid uses that as an inline style on sequence, gantt and similar
+   text, and for the hidden SVG it appends to <body> to measure text, so
+   the themeVariables font alone leaves some text in the system font and
+   boxes sized for it.  Only !important beats an inline style.  The
+   "body > svg" selector is the measurement SVG; MathJax output lives
+   inside mjx-container so it is unaffected. */
+.md-diagram-panel svg text,
+.md-diagram-panel svg tspan,
+.md-diagram-panel svg foreignObject div,
+.md-diagram-panel svg foreignObject span,
+.md-diagram-panel svg foreignObject p,
+svg[aria-roledescription] text,
+svg[aria-roledescription] tspan,
+svg[aria-roledescription] foreignObject *,
+body > svg text,
+body > svg tspan {
+    font-family: var(--mermaid-font-family) !important;
+}
+
+/* ---- Executive colours for mermaid ------------------------------------
+   Mermaid writes its own <style> into each SVG with id-based selectors, so
+   everything here needs !important.  Covers flowcharts, sequence, state and
+   class diagrams; other diagram types keep mermaid's dark theme. */
+.md-diagram-panel .node rect,
+.md-diagram-panel .node circle,
+.md-diagram-panel .node ellipse,
+.md-diagram-panel .node polygon,
+.md-diagram-panel .node path,
+.md-diagram-panel .actor,
+.md-diagram-panel .statediagram-state rect,
+.md-diagram-panel g.classGroup rect,
+.md-diagram-panel .labelBox {
+    fill: var(--node-fill) !important;
+    stroke: var(--exec-brown-mid) !important;
+}
+
+.md-diagram-panel .nodeLabel,
+.md-diagram-panel .edgeLabel,
+.md-diagram-panel .label,
+.md-diagram-panel .stateLabel,
+.md-diagram-panel g.classGroup text,
+.md-diagram-panel text.actor > tspan,
+.md-diagram-panel .labelText,
+.md-diagram-panel .loopText,
+.md-diagram-panel .loopText > tspan,
+.md-diagram-panel .messageText,
+.md-diagram-panel .sequenceNumber {
+    fill: var(--exec-text-strong) !important;
+    color: var(--exec-text-strong) !important;
+}
+
+.md-diagram-panel .cluster-label,
+.md-diagram-panel .cluster-label .nodeLabel,
+.md-diagram-panel .titleText,
+.md-diagram-panel .classTitle {
+    fill: var(--exec-gold) !important;
+    color: var(--exec-gold) !important;
+}
+
+.md-diagram-panel .edgePath .path,
+.md-diagram-panel .flowchart-link,
+.md-diagram-panel .transition,
+.md-diagram-panel .relation,
+.md-diagram-panel .messageLine0,
+.md-diagram-panel .messageLine1,
+.md-diagram-panel .loopLine {
+    stroke: var(--exec-tan) !important;
+}
+
+.md-diagram-panel .actor-line {
+    stroke: var(--exec-brown) !important;
+}
+
+.md-diagram-panel marker path,
+.md-diagram-panel .arrowheadPath,
+.md-diagram-panel #arrowhead path,
+.md-diagram-panel #crosshead path,
+.md-diagram-panel #filled-head path,
+.md-diagram-panel .marker {
+    fill: var(--exec-tan) !important;
+    stroke: var(--exec-tan) !important;
+}
+
+.md-diagram-panel .edgeLabel,
+.md-diagram-panel .edgeLabel p,
+.md-diagram-panel .edgeLabel span,
+.md-diagram-panel .edgeLabel rect,
+.md-diagram-panel .edgeLabel .labelBkg,
+.md-diagram-panel .labelBkg {
+    fill: var(--exec-bg) !important;
+    background-color: var(--exec-bg) !important;
+}
+
+.md-diagram-panel .edgeLabel,
+.md-diagram-panel .edgeLabel p,
+.md-diagram-panel .edgeLabel span {
+    fill: var(--exec-text-strong) !important;
+    color: var(--exec-text-strong) !important;
+}
+
+.md-diagram-panel .cluster rect,
+.md-diagram-panel .cluster polygon {
+    fill: var(--exec-bg-raised) !important;
+    stroke: var(--exec-brown) !important;
+}
+
+.md-diagram-panel .note,
+.md-diagram-panel .note rect {
+    fill: var(--exec-brown) !important;
+    stroke: var(--exec-brown-mid) !important;
+}
+
+.md-diagram-panel .noteText,
+.md-diagram-panel .noteText > tspan {
+    fill: var(--exec-cream) !important;
+    color: var(--exec-cream) !important;
+}
+
+.md-diagram-panel .activation0,
+.md-diagram-panel .activation1,
+.md-diagram-panel .activation2 {
+    fill: var(--exec-jade) !important;
+    stroke: var(--exec-jade-light) !important;
+}
+
+.md-diagram-panel .start-state,
+.md-diagram-panel .end-state,
+.md-diagram-panel .statediagram-state .divider,
+.md-diagram-panel g.stateGroup .state-start {
+    fill: var(--exec-jade) !important;
+    stroke: var(--exec-jade) !important;
+}
+
 /* Diagrams and other embedded renderers may draw with a non-Monaspace font.
    Stylistic sets are font-specific (Trebuchet MS reads ss03 as small caps),
    so only the universally safe features are inherited here. */
@@ -1258,7 +1397,10 @@ footer.ty-footer {
     background: var(--exec-jade-deep);
     color: var(--exec-text-sidebar);
     border-top: 1px solid #2c4141;        /* statusBar.border */
-    font-family: var(--font-code);
+    /* Argon here on purpose: the footer is always in the DOM, so this loads
+       the diagram font at startup and mermaid measures its first diagram
+       with the real metrics instead of a fallback's. */
+    font-family: "Monaspace Argon", var(--font-code);
     font-size: .8rem;
 }
 
