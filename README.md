@@ -10,6 +10,8 @@ stylesheet is lifted from the VS Code theme's JSON, and each variable in
 
 ![Executive for Typora: preview.md open in Typora, showing front matter, headings, prose with inline styles, a table of contents, a blockquote and lists in Monaspace](docs/screenshot.png)
 
+![Further down preview.md: GitHub-style alerts, MathJax output, and a mermaid flowchart rendered in Monaspace Argon with the Executive palette](docs/screenshot-diagram.png)
+
 ## Install
 
 1. Grab the files: `git clone https://github.com/rgehrsitz/executive-typora-theme.git`,
@@ -130,6 +132,7 @@ executive/
 preview.md                    a document that exercises every styled element
 docs/
   screenshot.png              preview.md captured in Typora on Windows
+  screenshot-diagram.png      the alerts, math and mermaid section of preview.md
   screenshot.md               a compact alternative source document
 ```
 
