@@ -14,8 +14,8 @@ stylesheet is lifted from the VS Code theme's JSON, and each variable in
 
 ## Install
 
-1. Grab the files: `git clone https://github.com/rgehrsitz/executive-typora-theme.git`,
-   or download the repository as a zip from GitHub.
+1. Download the zip from the [latest release](https://github.com/rgehrsitz/executive-typora-theme/releases/latest)
+   and extract it, or `git clone https://github.com/rgehrsitz/executive-typora-theme.git`.
 2. In Typora open **Preferences › Appearance › Open Theme Folder**.
 3. Copy `executive.css` **and** the `executive/` folder into that folder.
 4. Restart Typora and choose **Themes › Executive**.
